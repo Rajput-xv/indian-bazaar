@@ -1,0 +1,201 @@
+/* Import system fonts for offline reliability */
+@import './fonts/system-fonts.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Indian Bazaar Pro Design System - Inspired by vibrant Indian street food markets */
+
+@layer base {
+  :root {
+    /* Base Colors - Warm, welcoming tones */
+    --background: 42 15% 98%;
+    --foreground: 25 25% 15%;
+
+    /* Card & Surface Colors */
+    --card: 42 20% 99%;
+    --card-foreground: 25 25% 15%;
+
+    --popover: 42 20% 99%;
+    --popover-foreground: 25 25% 15%;
+
+    /* Primary - Saffron inspired */
+    --primary: 35 85% 55%;
+    --primary-foreground: 42 15% 98%;
+    --primary-glow: 35 90% 65%;
+
+    /* Secondary - Turmeric inspired */
+    --secondary: 45 80% 85%;
+    --secondary-foreground: 25 25% 15%;
+
+    /* Muted tones */
+    --muted: 42 15% 94%;
+    --muted-foreground: 25 15% 45%;
+
+    /* Accent - Fresh mint green */
+    --accent: 150 40% 85%;
+    --accent-foreground: 25 25% 15%;
+
+    /* Destructive - Chili red */
+    --destructive: 5 85% 60%;
+    --destructive-foreground: 42 15% 98%;
+
+    /* Borders & Inputs */
+    --border: 42 20% 88%;
+    --input: 42 20% 92%;
+    --ring: 35 85% 55%;
+
+    /* Custom Design Tokens */
+    --spice-orange: 25 85% 60%;
+    --cumin-brown: 30 35% 35%;
+    --chili-red: 5 85% 60%;
+    --mint-fresh: 150 60% 55%;
+    --cardamom-green: 120 25% 45%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-hero: linear-gradient(135deg, hsl(35 85% 55%) 0%, hsl(45 80% 60%) 50%, hsl(25 85% 60%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(42 25% 96%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(150 50% 75%));
+
+    /* Shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(25 35% 35% / 0.15);
+    --shadow-card: 0 4px 20px -2px hsl(25 35% 35% / 0.08);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.3);
+
+    /* Animations & Transitions */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+    --radius: 0.75rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark mode - Evening bazaar theme */
+    --background: 25 20% 8%;
+    --foreground: 42 15% 95%;
+
+    --card: 25 25% 12%;
+    --card-foreground: 42 15% 95%;
+
+    --popover: 25 25% 12%;
+    --popover-foreground: 42 15% 95%;
+
+    --primary: 35 85% 55%;
+    --primary-foreground: 25 20% 8%;
+    --primary-glow: 35 90% 65%;
+
+    --secondary: 25 20% 18%;
+    --secondary-foreground: 42 15% 95%;
+
+    --muted: 25 20% 15%;
+    --muted-foreground: 42 10% 65%;
+
+    --accent: 150 30% 25%;
+    --accent-foreground: 42 15% 95%;
+
+    --destructive: 5 85% 60%;
+    --destructive-foreground: 42 15% 95%;
+
+    --border: 25 20% 20%;
+    --input: 25 20% 18%;
+    --ring: 35 85% 55%;
+
+    /* Dark mode custom tokens */
+    --spice-orange: 25 85% 60%;
+    --cumin-brown: 30 25% 25%;
+    --chili-red: 5 85% 60%;
+    --mint-fresh: 150 40% 45%;
+    --cardamom-green: 120 20% 35%;
+
+    /* Dark gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-hero: linear-gradient(135deg, hsl(25 40% 15%) 0%, hsl(35 60% 20%) 50%, hsl(25 85% 60%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(25 30% 15%) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(150 40% 30%));
+
+    /* Dark shadows */
+    --shadow-elegant: 0 10px 30px -10px hsl(0 0% 0% / 0.3);
+    --shadow-card: 0 4px 20px -2px hsl(0 0% 0% / 0.2);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.2);
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border focus:outline-none focus:ring-2 focus:ring-primary/70;
+  }
+
+  html, body {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    @apply bg-background text-foreground font-inter antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-poppins;
+  }
+}
+
+@layer components {
+  /* Custom component styles */
+  .btn-gradient {
+    @apply bg-[var(--gradient-primary)] text-primary-foreground font-semibold px-6 py-3 rounded-xl 
+           shadow-[var(--shadow-elegant)] transition-[var(--transition-smooth)] 
+           hover:scale-105 hover:shadow-[var(--shadow-glow)] active:scale-95;
+  }
+
+  .card-elegant {
+    @apply bg-[var(--gradient-card)] border border-border rounded-2xl 
+           shadow-[var(--shadow-card)] transition-[var(--transition-smooth)]
+           hover:shadow-[var(--shadow-elegant)] hover:-translate-y-1;
+  }
+
+  .hero-text {
+    @apply bg-gradient-to-r from-primary via-[hsl(var(--spice-orange))] to-[hsl(var(--chili-red))] 
+           bg-clip-text text-transparent font-bold;
+  }
+
+  .spice-badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium
+           bg-[hsl(var(--mint-fresh)/0.1)] text-[hsl(var(--mint-fresh))] 
+           border border-[hsl(var(--mint-fresh)/0.2)];
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .transition-bounce {
+    transition: var(--transition-bounce);
+  }
+}

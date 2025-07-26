@@ -1,0 +1,70 @@
+/* System Font Fallbacks - No External Dependencies */
+
+/* Define robust font families using system fonts */
+:root {
+  /* System font stacks that work without internet connection */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+/* Custom font classes that fallback to system fonts */
+.font-inter {
+  font-family: var(--font-sans);
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+.font-poppins {
+  font-family: var(--font-sans);
+  font-feature-settings: 'kern', 'liga', 'clig', 'calt';
+}
+
+/* Alternative approach: Use CSS font-display with preconnect hints */
+@font-face {
+  font-family: 'InterFallback';
+  src: local('Inter'), local('Segoe UI'), local('Roboto'), local('Helvetica Neue'), local('Arial');
+  font-display: fallback;
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PoppinsFallback';
+  src: local('Poppins'), local('Segoe UI'), local('Roboto'), local('Helvetica Neue'), local('Arial');
+  font-display: fallback;
+  font-weight: 100 900;
+  font-style: normal;
+}
+
+/* Improved font rendering */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Typography scale with system fonts */
+.text-display {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  letter-spacing: -0.025em;
+}
+
+.text-heading {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.text-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+.text-caption {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
