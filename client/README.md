@@ -37,17 +37,21 @@ A modern, full-featured platform for street food vendors and suppliers to connec
    git clone <YOUR_GIT_URL>
    cd indian-bazaar-pro-main
    ```
-2. **Install dependencies**
+
+2. **Set up environment variables**
+
+3. **Install dependencies**
    ```sh
    npm install
    ```
-3. **Start the development server**
+
+4. **Start the development server**
    ```sh
    npm run dev
    ```
    - The app will be available at [http://localhost:8080](http://localhost:8080) (or next available port)
 
-4. **Build for production**
+5. **Build for production**
    ```sh
    npm run build
    ```
