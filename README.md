@@ -49,20 +49,6 @@ npm run dev
 # Client runs on http://localhost:8080
 ```
 
-### 4. Test Login Credentials
-
-The app automatically creates test data on first run:
-
-**Test Vendor:**
-- Email: `vendor@test.com`
-- Password: `password123`
-- Dashboard: http://localhost:8080/vendor/dashboard
-
-**Test Supplier:**
-- Email: `supplier@test.com`
-- Password: `password123`
-- Dashboard: http://localhost:8080/supplier/dashboard
-
 ## 🏗️ Architecture
 
 ### Backend (Port 5000)
