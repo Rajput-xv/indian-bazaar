@@ -76,7 +76,7 @@ app.use(`/api/${API_VERSION}/location`, locationRoutes);
 // Welcome route
 app.get('/', (req, res) => {
   res.json({
-    message: 'Welcome to Indian Bazaar Pro API',
+    message: 'Welcome to Indian Bazaar API',
     version: API_VERSION,
     documentation: `/api/${API_VERSION}/docs`,
     health: '/health',

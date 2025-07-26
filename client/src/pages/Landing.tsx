@@ -147,7 +147,7 @@ const GuestLanding: React.FC = () => {
         <div className="w-full px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-poppins font-bold mb-4">
-              Why Choose <span className="hero-text">Indian Bazaar Pro</span>?
+              Why Choose <span className="hero-text">Indian Bazaar</span>?
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
               Revolutionizing how street food vendors source their raw materials

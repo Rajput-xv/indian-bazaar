@@ -1,4 +1,4 @@
-# Indian Bazaar Pro - Complete Setup Guide
+# Indian Bazaar - Complete Setup Guide
 
 A full-stack marketplace connecting street food vendors with raw material suppliers.
 

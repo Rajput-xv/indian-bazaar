@@ -1,4 +1,4 @@
-# Indian Bazaar Pro
+# Indian Bazaar
 
 A modern, full-featured platform for street food vendors and suppliers to connect, manage inventory, and streamline raw material sourcing across India.
 
@@ -30,12 +30,6 @@ A modern, full-featured platform for street food vendors and suppliers to connec
 - **Zod** (validation)
 - **Other UI/UX libraries**: embla-carousel, recharts, sonner, etc.
 
-## 📦 Main Dependencies
-
-See `package.json` for full list. Key ones:
-- `react`, `react-dom`, `react-router-dom`, `@tanstack/react-query`, `react-hook-form`, `zod`
-- `@radix-ui/*`, `shadcn/ui`, `tailwindcss`, `lucide-react`
-
 ## 🖥️ Local Development
 
 1. **Clone the repository**
@@ -57,27 +51,6 @@ See `package.json` for full list. Key ones:
    ```sh
    npm run build
    ```
-
-## 📝 Project Structure
-
-- `src/pages/` — Main app pages (Landing, Auth, VendorDashboard, SupplierDashboard, NotFound)
-- `src/components/` — UI and common components
-- `src/contexts/` — React context for Auth, Theme
-- `src/hooks/` — Custom hooks
-- `src/types/` — TypeScript types
-- `src/utils/` — Mock data and utilities
-
-## 🎨 Styling
-- **Tailwind CSS** with custom theme (see `tailwind.config.ts`)
-- shadcn/ui for accessible, modern UI components
-
-## 🌐 Configuration
-- **Vite** config in `vite.config.ts` (default dev port: 8080)
-- **Tailwind** config in `tailwind.config.ts`
-
-## 👤 Credits
-- Built with ❤️ by the Indian Bazaar Pro team
-- UI powered by [shadcn/ui](https://ui.shadcn.com/) and [Tailwind CSS](https://tailwindcss.com/)
 
 ---
 

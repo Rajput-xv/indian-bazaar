@@ -23,7 +23,7 @@ export const Navbar: React.FC = () => {
               <Package className="w-5 h-5 text-primary-foreground" aria-hidden="true" />
             </div>
             <span className="font-poppins font-bold text-xl text-foreground">
-              Indian Bazaar Pro
+              Indian Bazaar
             </span>
           </div>
         </Link>

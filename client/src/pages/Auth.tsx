@@ -91,7 +91,7 @@ export const Auth: React.FC = () => {
       
       if (success) {
         toast({
-          title: `🎉 Welcome ${isLogin ? 'back' : 'to Indian Bazaar Pro'}!`,
+          title: `🎉 Welcome ${isLogin ? 'back' : 'to Indian Bazaar'}!`,
           description: `Successfully ${isLogin ? 'logged in' : 'registered'} as ${userRole}. Redirecting to your dashboard...`,
         });
         // Navigate after a short delay to show the success message

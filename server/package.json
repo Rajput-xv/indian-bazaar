@@ -1,7 +1,7 @@
 {
   "name": "indian-bazaar-server",
   "version": "1.0.0",
-  "description": "Backend API for Indian Bazaar Pro - A marketplace connecting vendors and suppliers",
+  "description": "Backend API for Indian Bazaar - A marketplace connecting vendors and suppliers",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -14,7 +14,7 @@
     "suppliers",
     "vendors"
   ],
-  "author": "Indian Bazaar Pro Team",
+  "author": "Indian Bazaar Team",
   "license": "MIT",
   "dependencies": {
     "express": "^4.18.2",
