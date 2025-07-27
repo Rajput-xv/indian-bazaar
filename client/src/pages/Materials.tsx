@@ -4,7 +4,6 @@ import { Input } from '../components/ui/input';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
-import { DemoModeIndicator } from '../components/common/DemoModeIndicator';
 import { MaterialCard } from '../components/vendor/MaterialCard';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
@@ -149,8 +148,6 @@ export const Materials: React.FC = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="w-full px-4 py-8">
-        {/* Demo Mode Indicator */}
-        <DemoModeIndicator className="mb-6" />
 
         {/* Header */}
         <div className="mb-8">

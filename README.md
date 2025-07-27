@@ -1,6 +1,6 @@
-# Indian Bazaar - Complete Setup Guide
+# Indian Bazaar
 
-A full-stack marketplace connecting street food vendors with raw material suppliers.
+A full-stack marketplace connecting street food vendors with raw material suppliers in India. Built with modern web technologies to streamline the supply chain for small businesses.
 
 ## 🚀 Quick Start
 
@@ -11,7 +11,7 @@ A full-stack marketplace connecting street food vendors with raw material suppli
 
 ### 1. Clone & Setup
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Rajput-xv/indian-bazaar.git
 cd indian-bazaar
 
 # Install dependencies for both client and server
@@ -19,7 +19,10 @@ cd server && npm install
 cd ../client && npm install
 ```
 
-### 2. Environment Setup
+**Client (.env in /client folder):**
+```env
+VITE_API_URL=http://localhost:5000/api/v1
+```
 
 **Server (.env in /server folder):**
 ```env
@@ -49,47 +52,87 @@ npm run dev
 # Client runs on http://localhost:8080
 ```
 
-## 🏗️ Architecture
+## 🛠️ Tech Stack
 
-### Backend (Port 5000)
-- **Express.js** + MongoDB + Mongoose
-- **JWT Authentication** with role-based access
-- **RESTful API** with full CRUD operations
-- **Rate limiting** and security middleware
-- **Automatic test data** creation
+### Frontend
+- **React 18** with TypeScript
+- **Vite** for fast development and building
+- **Tailwind CSS** for styling
+- **shadcn/ui** for beautiful, accessible components
+- **React Router DOM** for client-side routing
+- **React Hook Form** with Zod validation
+- **TanStack Query** for server state management
+- **Lucide React** for icons
+- **Recharts** for data visualization
 
-### Frontend (Port 8080)
-- **React 18** + TypeScript + Vite
-- **shadcn/ui** components + Tailwind CSS
-- **React Router** for navigation
-- **Context API** for state management
-- **Real-time cart** and authentication
+### Backend
+- **Node.js** with Express.js
+- **MongoDB** with Mongoose ODM
+- **JWT** for authentication
+- **bcryptjs** for password hashing
+- **CORS** for cross-origin requests
+- **Express Rate Limit** for API protection
 
-## Key Features
-- ✅ **Full Authentication** - JWT-based login/register
-- ✅ **Role-based Access** - Vendor & Supplier dashboards
-- ✅ **Real-time Cart** - Add/remove/update items
-- ✅ **Order Management** - Create and track orders
-- ✅ **Search & Filter** - Find materials and suppliers
-- ✅ **Location Services** - Nearby supplier discovery
-- ✅ **Responsive Design** - Mobile-friendly UI
-- ✅ **Type Safety** - Full TypeScript support
+## ✨ Key Features
+- 🔐 **Authentication & Authorization** - JWT-based with role-based access control
+- 👥 **Dual User Roles** - Vendor and Supplier dashboards with role-specific features
+- 🛒 **Smart Cart Management** - Real-time cart with persistent storage
+- 📦 **Order Management** - Complete order lifecycle from creation to tracking
+- 🔍 **Advanced Search & Filtering** - Find materials and suppliers easily
+- 📍 **Location-based Services** - Discover nearby suppliers with distance calculation
+- 📊 **Analytics Dashboard** - Business insights with interactive charts
+- 📱 **Responsive Design** - Mobile-first approach for all devices
+- 🎨 **Modern UI/UX** - Beautiful interface with dark/light theme support
+- ⚡ **Real-time Updates** - Live cart synchronization and order status updates
+- 🔒 **Security Features** - Rate limiting, input validation, and secure authentication
 
-## 🎯 Usage Flow
+## 🎯 User Workflows
 
-1. **Registration/Login** - Choose vendor or supplier role
-2. **Vendor Dashboard** - Browse materials, add to cart, place orders
-3. **Supplier Dashboard** - Manage materials, view incoming orders
-4. **Cart Management** - Real-time cart updates with API sync
-5. **Order Tracking** - Monitor order status and delivery
+### For Vendors (Street Food Sellers)
+1. **Register/Login** as a vendor
+2. **Browse Materials** - Search and filter raw materials by category, price, location
+3. **Add to Cart** - Select quantities and add items to cart
+4. **Place Orders** - Review cart and place orders with suppliers
+5. **Track Orders** - Monitor order status and delivery updates
+6. **Dashboard Analytics** - View purchase history and spending insights
 
-## 🔒 Security Features
+### For Suppliers (Raw Material Providers)
+1. **Register/Login** as a supplier
+2. **Manage Inventory** - Add, edit, and manage material listings
+3. **Receive Orders** - View and process incoming orders from vendors
+4. **Update Stock** - Keep inventory levels current
+5. **Analytics** - Track sales performance and popular products
 
-- JWT token authentication
-- Password hashing with bcrypt
-- Role-based route protection
-- CORS configuration
-- Rate limiting
-- Input validation
-- SQL injection protection (MongoDB)
+## 🔒 Security & Performance
 
+- **JWT Authentication** with secure token handling
+- **Password Hashing** using bcryptjs with salt rounds
+- **Role-based Access Control** protecting routes and resources
+- **Rate Limiting** to prevent API abuse
+- **CORS Configuration** for secure cross-origin requests
+- **Input Validation** using Zod schemas
+- **MongoDB Security** with parameterized queries
+- **Environment Variables** for sensitive configuration
+
+## 🚀 Development Features
+
+- **Hot Reload** for fast development cycles
+- **TypeScript** for type safety and better developer experience
+- **ESLint** for code quality and consistency
+- **Tailwind CSS** for rapid UI development
+- **Component Library** with shadcn/ui for consistent design
+- **Mock Data Generation** for development and testing
+- **Modern Build Tools** with Vite for optimal performance
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Contributors
+
+- **Parth Saxena**
+- **Navneet Gupta**
+- **Aakash Gupta**
+- **Vansh**
+
+---

@@ -5,7 +5,6 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
-import { DemoModeIndicator } from '../components/common/DemoModeIndicator';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
 import { apiClient } from '../lib/api';
@@ -165,8 +164,6 @@ export const VendorDashboard: React.FC = () => {
 
       <div className="min-h-screen bg-background">
         <div className="w-full px-4 py-8">
-          {/* Demo Mode Indicator */}
-          <DemoModeIndicator className="mb-6" />
 
           {/* Header */}
           <div className="mb-8">
