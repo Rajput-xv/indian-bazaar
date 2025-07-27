@@ -56,16 +56,29 @@ export const Materials: React.FC = () => {
     loadMaterials();
   }, []);
 
-  // Get user location
+  // Set user location from profile or get from geolocation as fallback
   useEffect(() => {
-    getCurrentLocation()
-      .then(location => {
-        setUserLocation(location);
-      })
-      .catch(error => {
-        console.error('Error getting location:', error);
+    if (user?.location) {
+      // Use location from user profile
+      setUserLocation({
+        latitude: user.location.latitude,
+        longitude: user.location.longitude,
+        address: user.location.address,
+        city: user.location.city,
+        state: user.location.state,
+        pincode: user.location.pincode,
       });
-  }, []);
+    } else {
+      // Fallback to geolocation if no location in profile
+      getCurrentLocation()
+        .then(location => {
+          setUserLocation(location);
+        })
+        .catch(error => {
+          console.error('Error getting location:', error);
+        });
+    }
+  }, [user]);
 
   // Add distance to materials when both materials and location are available
   useEffect(() => {
@@ -149,8 +162,30 @@ export const Materials: React.FC = () => {
               </p>
               {userLocation && (
                 <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
+                  <MapPin className="w-4 h-4 text-primary" />
+                  <span>
+                    {userLocation.address ? 
+                      `${userLocation.address}, ${userLocation.city}, ${userLocation.state} ${userLocation.pincode}` : 
+                      `${userLocation.city}, ${userLocation.state} ${userLocation.pincode}`
+                    }
+                  </span>
+                </div>
+              )}
+              {!userLocation && user?.location && (
+                <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
+                  <MapPin className="w-4 h-4 text-primary" />
+                  <span>
+                    {user.location.address ? 
+                      `${user.location.address}, ${user.location.city}, ${user.location.state} ${user.location.pincode}` : 
+                      `${user.location.city}, ${user.location.state} ${user.location.pincode}`
+                    }
+                  </span>
+                </div>
+              )}
+              {!userLocation && !user?.location && (
+                <div className="flex items-center gap-2 mt-2 text-sm text-orange-600">
                   <MapPin className="w-4 h-4" />
-                  <span>Your location: {userLocation.city}, {userLocation.state}</span>
+                  <span>Location not set - Update your profile to set delivery location</span>
                 </div>
               )}
             </div>
