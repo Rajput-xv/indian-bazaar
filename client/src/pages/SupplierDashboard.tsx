@@ -5,7 +5,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card'
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
-import { DemoModeIndicator } from '../components/common/DemoModeIndicator';
 import { useAuth } from '../contexts/AuthContext';
 import { Material, Order } from '../types';
 import { getStoredMaterials, storeMaterials, getStoredOrders, storeOrders } from '../utils/mockData';
@@ -17,10 +16,14 @@ export const SupplierDashboard: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [editingMaterial, setEditingMaterial] = useState<Material | null>(null);
-  const [showWelcome, setShowWelcome] = useState(() => {
-    // Only show welcome dialog if this is the first time
-    return !localStorage.getItem(`supplier_welcomed_${user?.id}`)
-  });
+  const [showWelcome, setShowWelcome] = useState(false);
+
+  useEffect(() => {
+    // Only show welcome dialog if this is the first time and user is loaded
+    if (user?.id && !localStorage.getItem(`supplier_welcomed_${user.id}`)) {
+      setShowWelcome(true);
+    }
+  }, [user?.id]);
   const [newMaterial, setNewMaterial] = useState({
     name: '',
     price: '',
@@ -203,7 +206,12 @@ export const SupplierDashboard: React.FC = () => {
   return (
     <>
       {/* Welcome Dialog */}
-      <Dialog open={showWelcome} onOpenChange={setShowWelcome}>
+      <Dialog open={showWelcome} onOpenChange={(open) => {
+        setShowWelcome(open);
+        if (!open && user?.id) {
+          localStorage.setItem(`supplier_welcomed_${user.id}`, 'true');
+        }
+      }}>
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
@@ -242,7 +250,9 @@ export const SupplierDashboard: React.FC = () => {
               onClick={() => {
                 setShowWelcome(false);
                 // Mark this user as welcomed
-                localStorage.setItem(`supplier_welcomed_${user?.id}`, 'true');
+                if (user?.id) {
+                  localStorage.setItem(`supplier_welcomed_${user.id}`, 'true');
+                }
               }} 
               className="w-full btn-gradient"
             >
@@ -254,8 +264,6 @@ export const SupplierDashboard: React.FC = () => {
 
       <div className="min-h-screen bg-background">
       <div className="w-full px-4 py-8">
-        {/* Demo Mode Indicator */}
-        <DemoModeIndicator className="mb-6" />
 
         {/* Header */}
         <div className="flex justify-between items-center mb-8">

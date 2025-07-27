@@ -5,7 +5,7 @@ A modern, full-featured platform for street food vendors and suppliers to connec
 ## 🚀 Features
 
 - **Landing Page**: Highlights platform benefits, stats, and a call-to-action for vendors and suppliers.
-- **Authentication**: Sign up and login for both vendors and suppliers, with demo mode for easy testing.
+- **Authentication**: Sign up and login for both vendors and suppliers.
 - **Vendor Dashboard**:
   - Browse and search raw materials from suppliers
   - Filter by category

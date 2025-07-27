@@ -337,12 +337,6 @@ export const Auth: React.FC = () => {
                 </button>
               </p>
             </div>
-
-            <div className="mt-4 p-4 bg-muted/50 rounded-lg">
-              <p className="text-xs text-muted-foreground text-center">
-                Demo: Use any email and password (min 6 chars) to login
-              </p>
-            </div>
           </CardContent>
         </Card>
       </div>

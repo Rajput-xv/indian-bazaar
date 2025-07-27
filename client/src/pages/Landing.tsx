@@ -51,10 +51,10 @@ const GuestLanding: React.FC = () => {
   ];
 
   const stats = [
-    { label: "Active Vendors", value: "5,000+", icon: <Users className="w-5 h-5" /> },
-    { label: "Verified Suppliers", value: "1,200+", icon: <Package className="w-5 h-5" /> },
-    { label: "Orders Delivered", value: "50,000+", icon: <TrendingUp className="w-5 h-5" /> },
-    { label: "Cities Covered", value: "25+", icon: <MapPin className="w-5 h-5" /> }
+    { label: "Active Vendors", value: "N/A", icon: <Users className="w-5 h-5" /> },
+    { label: "Verified Suppliers", value: "N/A", icon: <Package className="w-5 h-5" /> },
+    { label: "Orders Delivered", value: "N/A", icon: <TrendingUp className="w-5 h-5" /> },
+    { label: "Cities Covered", value: "N/A", icon: <MapPin className="w-5 h-5" /> }
   ];
 
   return (
@@ -91,7 +91,7 @@ const GuestLanding: React.FC = () => {
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-8">
+            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center pt-2">
               <Link to="/auth/vendor">
                 <Button className="btn-gradient text-lg px-8 py-4 w-full sm:w-auto">
                   <Users className="w-5 h-5 mr-2" />
@@ -112,15 +112,8 @@ const GuestLanding: React.FC = () => {
               </Link>
             </div>
 
-            <div className="pt-8">
-              <p className="text-sm text-muted-foreground">
-                💡 <strong>Demo Mode:</strong> Use any email and password (min 6 chars) to explore the platform
-              </p>
-            </div>
-
-            <div className="pt-8 pb-8">
+            <div className="pt-1 pb-8">
               <p className="text-sm text-muted-foreground mb-6 flex items-center justify-center gap-2">
-                <Clock className="w-4 h-4" />
                 Trusted by thousands across India
               </p>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -143,10 +136,10 @@ const GuestLanding: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-muted/30">
+      <section className="py-10 bg-muted/30">
         <div className="w-full px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-poppins font-bold mb-4">
+            <h2 className="text-3xl md:text-4xl font-poppins font-bold mb-2">
               Why Choose <span className="hero-text">Indian Bazaar</span>?
             </h2>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
@@ -187,11 +180,11 @@ const GuestLanding: React.FC = () => {
               Join thousands of vendors and suppliers who are already benefiting 
               from our platform. Start your journey today!
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-2">
               <Link to="/auth/vendor">
                 <Button 
                   variant="secondary" 
-                  className="text-lg px-8 py-4 w-full sm:w-auto bg-background hover:bg-background/90"
+                  className="text-lg px-8 w-full sm:w-auto bg-background hover:bg-background/90"
                 >
                   Get Started Now
                   <ArrowRight className="w-5 h-5 ml-2" />
@@ -205,7 +198,6 @@ const GuestLanding: React.FC = () => {
   );
 };
 
-// Vendor Home Component (when vendor is logged in)
 const VendorHome: React.FC = () => {
   const { user } = useAuth();
   const { cart, getCartItemCount } = useCart();

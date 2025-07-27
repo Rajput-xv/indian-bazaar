@@ -4,7 +4,6 @@ import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../components/ui/dialog';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
-import { DemoModeIndicator } from '../components/common/DemoModeIndicator';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
 import { apiClient } from '../lib/api';
@@ -18,10 +17,14 @@ export const VendorDashboard: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [userLocation, setUserLocation] = useState<LocationType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [showWelcome, setShowWelcome] = useState(() => {
-    // Only show welcome dialog if this is the first time
-    return !localStorage.getItem(`vendor_welcomed_${user?.id}`)
-  });
+  const [showWelcome, setShowWelcome] = useState(false);
+
+  useEffect(() => {
+    // Only show welcome dialog if this is the first time and user is loaded
+    if (user?.id && !localStorage.getItem(`vendor_welcomed_${user.id}`)) {
+      setShowWelcome(true);
+    }
+  }, [user?.id]);
 
   useEffect(() => {
     // Load orders from API
@@ -91,7 +94,12 @@ export const VendorDashboard: React.FC = () => {
   return (
     <>
       {/* Welcome Dialog */}
-      <Dialog open={showWelcome} onOpenChange={setShowWelcome}>
+      <Dialog open={showWelcome} onOpenChange={(open) => {
+        setShowWelcome(open);
+        if (!open && user?.id) {
+          localStorage.setItem(`vendor_welcomed_${user.id}`, 'true');
+        }
+      }}>
         <DialogContent className="max-w-md">
           <DialogHeader>
             <div className="flex items-center justify-between">
@@ -101,7 +109,12 @@ export const VendorDashboard: React.FC = () => {
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => setShowWelcome(false)}
+                onClick={() => {
+                  setShowWelcome(false);
+                  if (user?.id) {
+                    localStorage.setItem(`vendor_welcomed_${user.id}`, 'true');
+                  }
+                }}
               >
                 <X className="w-4 h-4" />
               </Button>
@@ -138,7 +151,9 @@ export const VendorDashboard: React.FC = () => {
               onClick={() => {
                 setShowWelcome(false);
                 // Mark this user as welcomed
-                localStorage.setItem(`vendor_welcomed_${user?.id}`, 'true');
+                if (user?.id) {
+                  localStorage.setItem(`vendor_welcomed_${user.id}`, 'true');
+                }
               }} 
               className="w-full btn-gradient"
             >
@@ -150,8 +165,6 @@ export const VendorDashboard: React.FC = () => {
 
       <div className="min-h-screen bg-background">
         <div className="w-full px-4 py-8">
-          {/* Demo Mode Indicator */}
-          <DemoModeIndicator className="mb-6" />
 
           {/* Header */}
           <div className="mb-8">
