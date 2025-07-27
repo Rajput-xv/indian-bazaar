@@ -16,6 +16,16 @@ const register = async (req, res) => {
   try {
     const { name, email, password, role, phone, businessName, location } = req.body;
 
+    // Debug logging
+    console.log('Registration request body:', {
+      name,
+      email,
+      role,
+      phone,
+      businessName,
+      location: location ? 'present' : 'missing'
+    });
+
     // Check if user exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
