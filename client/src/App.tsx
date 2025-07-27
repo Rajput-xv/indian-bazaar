@@ -12,6 +12,7 @@ import { Materials } from './pages/Materials';
 import { VendorDashboard } from './pages/VendorDashboard';
 import { SupplierDashboard } from './pages/SupplierDashboard';
 import { Cart } from './pages/Cart';
+import { Orders } from './pages/Orders';
 import NotFound from './pages/NotFound';
 import './App.css';
 
@@ -96,6 +97,14 @@ function App() {
                   element={
                     <ProtectedRoute allowedRoles={['supplier']}>
                       <SupplierDashboard />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/orders" 
+                  element={
+                    <ProtectedRoute allowedRoles={['vendor', 'supplier']}>
+                      <Orders />
                     </ProtectedRoute>
                   } 
                 />

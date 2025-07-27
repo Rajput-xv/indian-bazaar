@@ -18,7 +18,7 @@ export const createOrder = async (req, res) => {
 
     // Validate materials and calculate total
     let totalAmount = 0;
-    const orderMaterials = [];
+    const orderItems = [];
 
     for (const item of materials) {
       const material = await Material.findById(item.materialId)
@@ -39,30 +39,65 @@ export const createOrder = async (req, res) => {
       const itemTotal = material.price * item.quantity;
       totalAmount += itemTotal;
 
-      orderMaterials.push({
+      orderItems.push({
         materialId: material._id,
         materialName: material.name,
+        category: material.category,
         quantity: item.quantity,
-        price: material.price,
         unit: material.unit,
+        price: material.price,
+        totalPrice: itemTotal,
         supplierId: material.supplierId._id,
         supplierName: material.supplierId.name,
-        totalPrice: itemTotal,
       });
     }
 
-    // Create order
+    // Parse delivery address if it's a string
+    let parsedDeliveryAddress = deliveryAddress;
+    if (typeof deliveryAddress === 'string') {
+      // For now, create a simple location object from string
+      // In a real app, you'd want to geocode this or have users select from predefined addresses
+      parsedDeliveryAddress = {
+        address: deliveryAddress,
+        city: 'Mumbai',
+        state: 'Maharashtra',
+        pincode: '400001', // Valid pincode format
+        latitude: 19.0760,
+        longitude: 72.8777
+      };
+    }
+
+    // Generate order number
+    const today = new Date();
+    const year = today.getFullYear().toString().slice(-2);
+    const month = (today.getMonth() + 1).toString().padStart(2, '0');
+    const day = today.getDate().toString().padStart(2, '0');
+    const timestamp = Date.now().toString().slice(-6);
+    const orderNumber = `IBP${year}${month}${day}${timestamp}`;
+
+    // Create order with proper structure
     const order = await Order.create({
+      orderNumber: orderNumber,
       vendorId: req.user.id,
       vendorName: req.user.name,
-      materials: orderMaterials,
-      totalAmount,
+      items: orderItems,
+      totalItems: materials.reduce((sum, item) => sum + item.quantity, 0),
+      subtotal: totalAmount,
+      deliveryFee: 50, // Fixed delivery fee for now
+      totalAmount: totalAmount + 50,
       status: 'pending',
-      orderDate: new Date(),
-      deliveryAddress: deliveryAddress || req.user.location,
-      paymentStatus: 'pending',
-      paymentMethod,
-      notes,
+      deliveryAddress: parsedDeliveryAddress,
+      payment: {
+        method: paymentMethod === 'cash' ? 'cod' : paymentMethod,
+        status: 'pending',
+        amount: totalAmount + 50,
+        currency: 'INR'
+      },
+      delivery: {
+        fee: 50,
+        instructions: notes || ''
+      },
+      notes: notes || '',
     });
 
     // Update material quantities
@@ -83,8 +118,8 @@ export const createOrder = async (req, res) => {
 
     // Populate order details
     const populatedOrder = await Order.findById(order._id)
-      .populate('vendorId', 'name email phone location')
-      .populate('materials.supplierId', 'name location rating');
+      .populate('vendorId', 'name email phone')
+      .populate('items.supplierId', 'name location rating');
 
     res.status(201).json({
       success: true,
@@ -115,7 +150,7 @@ export const getOrders = async (req, res) => {
     if (req.user.role === 'vendor') {
       filter.vendorId = req.user.id;
     } else if (req.user.role === 'supplier') {
-      filter['materials.supplierId'] = req.user.id;
+      filter['items.supplierId'] = req.user.id;
     }
 
     // Status filter
@@ -125,8 +160,8 @@ export const getOrders = async (req, res) => {
 
     const orders = await Order.find(filter)
       .populate('vendorId', 'name email phone location')
-      .populate('materials.supplierId', 'name location rating')
-      .sort({ orderDate: -1 })
+      .populate('items.supplierId', 'name location rating')
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
 
@@ -156,7 +191,7 @@ export const getOrderById = async (req, res) => {
   try {
     const order = await Order.findById(req.params.id)
       .populate('vendorId', 'name email phone location')
-      .populate('materials.supplierId', 'name location rating operatingHours');
+      .populate('items.supplierId', 'name location rating operatingHours');
 
     if (!order) {
       return res.status(404).json({
@@ -167,7 +202,7 @@ export const getOrderById = async (req, res) => {
     // Check if user has access to this order
     const hasAccess = 
       req.user.role === 'vendor' && order.vendorId._id.toString() === req.user.id ||
-      req.user.role === 'supplier' && order.materials.some(m => m.supplierId._id.toString() === req.user.id);
+      req.user.role === 'supplier' && order.items.some(m => m.supplierId._id.toString() === req.user.id);
 
     if (!hasAccess) {
       return res.status(403).json({
@@ -211,7 +246,7 @@ export const updateOrderStatus = async (req, res) => {
     }
 
     // Check if supplier has materials in this order
-    const hasSupplierMaterials = order.materials.some(
+    const hasSupplierMaterials = order.items.some(
       m => m.supplierId.toString() === req.user.id
     );
 
@@ -234,7 +269,7 @@ export const updateOrderStatus = async (req, res) => {
       { new: true }
     )
       .populate('vendorId', 'name email phone')
-      .populate('materials.supplierId', 'name location rating');
+      .populate('items.supplierId', 'name location rating');
 
     res.json({
       success: true,
@@ -265,7 +300,7 @@ export const cancelOrder = async (req, res) => {
     // Check authorization
     const isVendor = req.user.role === 'vendor' && order.vendorId.toString() === req.user.id;
     const isSupplier = req.user.role === 'supplier' && 
-      order.materials.some(m => m.supplierId.toString() === req.user.id);
+      order.items.some(m => m.supplierId.toString() === req.user.id);
 
     if (!isVendor && !isSupplier) {
       return res.status(403).json({
@@ -281,7 +316,7 @@ export const cancelOrder = async (req, res) => {
     }
 
     // Restore material quantities
-    for (const material of order.materials) {
+    for (const material of order.items) {
       await Material.findByIdAndUpdate(
         material.materialId,
         { $inc: { quantity: material.quantity } }
@@ -321,8 +356,8 @@ export const getVendorOrders = async (req, res) => {
     }
 
     const orders = await Order.find(filter)
-      .populate('materials.supplierId', 'name location rating')
-      .sort({ orderDate: -1 })
+      .populate('items.supplierId', 'name location rating')
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
 
@@ -354,14 +389,14 @@ export const getSupplierOrders = async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
 
-    const filter = { 'materials.supplierId': req.user.id };
+    const filter = { 'items.supplierId': req.user.id };
     if (req.query.status) {
       filter.status = req.query.status;
     }
 
     const orders = await Order.find(filter)
       .populate('vendorId', 'name email phone location')
-      .sort({ orderDate: -1 })
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limit);
 
