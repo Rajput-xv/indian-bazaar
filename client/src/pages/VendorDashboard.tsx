@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ShoppingCart, Package, TrendingUp, Clock, MapPin, CheckCircle, X } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
@@ -15,6 +16,7 @@ import { toast } from '../hooks/use-toast';
 export const VendorDashboard: React.FC = () => {
   const { user } = useAuth();
   const { cart, getCartItemCount } = useCart();
+  const navigate = useNavigate();
   const [orders, setOrders] = useState<Order[]>([]);
   const [userLocation, setUserLocation] = useState<LocationType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -211,7 +213,7 @@ export const VendorDashboard: React.FC = () => {
 
           {/* Quick Navigation */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <Card className="card-elegant hover:scale-105 transition-smooth cursor-pointer" onClick={() => window.location.href = '/materials'}>
+            <Card className="card-elegant hover:scale-105 transition-smooth cursor-pointer" onClick={() => navigate('/materials')}>
               <CardContent className="p-6 text-center">
                 <Package className="w-12 h-12 text-primary mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Browse Materials</h3>
@@ -224,7 +226,7 @@ export const VendorDashboard: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card className="card-elegant hover:scale-105 transition-smooth cursor-pointer" onClick={() => window.location.href = '/cart'}>
+            <Card className="card-elegant hover:scale-105 transition-smooth cursor-pointer" onClick={() => navigate('/cart')}>
               <CardContent className="p-6 text-center">
                 <ShoppingCart className="w-12 h-12 text-primary mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">View Cart</h3>
@@ -336,7 +338,7 @@ export const VendorDashboard: React.FC = () => {
                   <p className="text-muted-foreground mb-6">
                     Start by browsing materials and adding items to your cart
                   </p>
-                  <Button className="btn-gradient" onClick={() => window.location.href = '/materials'}>
+                  <Button className="btn-gradient" onClick={() => navigate('/materials')}>
                     <Package className="w-4 h-4 mr-2" />
                     Browse Materials
                   </Button>
