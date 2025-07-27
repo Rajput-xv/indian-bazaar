@@ -94,9 +94,22 @@ export interface PriceComparison {
 export interface Order {
   _id?: string;
   id: string;
+  orderNumber?: string;
   vendorId: string;
   vendorName?: string;
-  materials: {
+  items?: {
+    materialId: string;
+    materialName?: string;
+    category?: string;
+    name?: string;
+    quantity: number;
+    price: number;
+    unit?: string;
+    totalPrice: number;
+    supplierId: string;
+    supplierName?: string;
+  }[];
+  materials?: {
     materialId: string;
     materialName?: string;
     name?: string;
@@ -106,13 +119,16 @@ export interface Order {
     supplierId: string;
     supplierName?: string;
   }[];
+  totalItems?: number;
+  subtotal?: number;
+  deliveryFee?: number;
   totalAmount: number;
-  status: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
-  orderDate: Date;
+  status: 'pending' | 'confirmed' | 'processing' | 'packed' | 'shipped' | 'out_for_delivery' | 'delivered' | 'cancelled' | 'returned';
+  orderDate?: Date;
   estimatedDelivery?: Date;
   deliveryAddress: string | object;
   notes?: string;
-  paymentMethod?: 'cash' | 'online';
+  paymentMethod?: 'cash' | 'online' | 'cod';
   createdAt?: Date;
   updatedAt?: Date;
 }

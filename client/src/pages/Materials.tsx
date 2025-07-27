@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Search, Filter, ShoppingCart, Package, MapPin, Star, Scale, SlidersHorizontal } from 'lucide-react';
 import { Input } from '../components/ui/input';
 import { Button } from '../components/ui/button';
@@ -26,6 +26,7 @@ export const Materials: React.FC = () => {
   const [showLocationFilter, setShowLocationFilter] = useState(false);
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const distanceAddedRef = useRef(false);
 
   // Categories for filtering
   const categories = ['all', ...Array.from(new Set(materials.map(m => m.category)))];
@@ -81,9 +82,10 @@ export const Materials: React.FC = () => {
 
   // Add distance to materials when both materials and location are available
   useEffect(() => {
-    if (materials.length > 0 && userLocation && !materials[0].distance) {
+    if (materials.length > 0 && userLocation && !distanceAddedRef.current) {
       const materialsWithDistance = addDistanceToMaterials(materials, userLocation);
       setMaterials(materialsWithDistance);
+      distanceAddedRef.current = true;
     }
   }, [materials, userLocation]);
 

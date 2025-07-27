@@ -327,9 +327,9 @@ export const VendorDashboard: React.FC = () => {
                   {orders.slice(0, 5).map((order, index) => (
                     <div key={index} className="flex items-center justify-between p-4 bg-muted/50 rounded-lg">
                       <div>
-                        <p className="font-medium">Order #{order.id || index + 1}</p>
+                        <p className="font-medium">Order #{order.orderNumber || order.id || index + 1}</p>
                         <p className="text-sm text-muted-foreground">
-                          {order.materials?.length || 0} items • ₹{order.totalAmount?.toFixed(2) || '0.00'}
+                          {order.items?.length || order.materials?.length || 0} items • ₹{order.totalAmount?.toFixed(2) || '0.00'}
                         </p>
                       </div>
                       <div className="text-right">
@@ -340,7 +340,7 @@ export const VendorDashboard: React.FC = () => {
                       </div>
                     </div>
                   ))}
-                  <Button variant="outline" className="w-full">
+                  <Button variant="outline" className="w-full" onClick={() => navigate('/orders')}>
                     View All Orders
                   </Button>
                 </div>

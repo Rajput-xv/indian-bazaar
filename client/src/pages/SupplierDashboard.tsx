@@ -449,7 +449,7 @@ export const SupplierDashboard: React.FC = () => {
                   <div key={order.id} className="p-4 border border-border rounded-lg">
                     <div className="flex justify-between items-start mb-2">
                       <div>
-                        <h4 className="font-medium">Order #{order.id}</h4>
+                        <h4 className="font-medium">Order #{order.orderNumber || order.id}</h4>
                         <p className="text-sm text-muted-foreground">
                           From: {order.vendorName}
                         </p>
@@ -466,7 +466,7 @@ export const SupplierDashboard: React.FC = () => {
                       </div>
                     </div>
                     <p className="text-sm text-muted-foreground mb-3">
-                      {order.materials.length} items • {new Date(order.orderDate).toLocaleDateString()}
+                      {(order.items || order.materials)?.length || 0} items • {order.createdAt ? new Date(order.createdAt).toLocaleDateString() : new Date().toLocaleDateString()}
                     </p>
                     {order.status === 'pending' && (
                       <div className="flex gap-2">

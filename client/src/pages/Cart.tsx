@@ -9,6 +9,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { calculateDeliveryFee, formatDistance } from '../utils/locationUtils';
 import { toast } from '../hooks/use-toast';
 import { CartItem, Material } from '../types';
+import { apiClient } from '../lib/api';
 
 export const Cart: React.FC = () => {
   const { cart, removeFromCart, updateQuantity, clearCart, getCartTotal } = useCart();
@@ -77,20 +78,44 @@ export const Cart: React.FC = () => {
     setIsProcessing(true);
     
     try {
-      // Simulate payment processing
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      toast({
-        title: "Order Placed Successfully!",
-        description: `Your order for ₹${total} has been placed. You will receive a confirmation shortly.`,
+      // Prepare order data from cart items
+      const orderMaterials = cart.items.map(item => {
+        const materialId = getMaterialId(item);
+        
+        return {
+          materialId: materialId,
+          quantity: item.quantity
+        };
       });
+
+      const orderData = {
+        materials: orderMaterials,
+        deliveryAddress: deliveryAddress,
+        paymentMethod: paymentMethod === 'cod' ? 'cash' as const : 'online' as const,
+        notes: '', // Could add a notes field in the UI later
+        clearCart: true // Flag to clear cart after order creation
+      };
+
+      // Create order via API
+      const response = await apiClient.createOrder(orderData);
       
-      clearCart();
-      navigate('/materials');
+      if (response.success) {
+        toast({
+          title: "Order Placed Successfully!",
+          description: `Your order for ₹${total} has been placed. You will receive a confirmation shortly.`,
+        });
+        
+        // Clear cart and navigate
+        clearCart();
+        navigate('/vendor/dashboard');
+      } else {
+        throw new Error(response.error || 'Failed to create order');
+      }
     } catch (error) {
+      console.error('Order creation error:', error);
       toast({
         title: "Order Failed",
-        description: "There was an error processing your order. Please try again.",
+        description: error instanceof Error ? error.message : "There was an error processing your order. Please try again.",
         variant: "destructive"
       });
     } finally {
