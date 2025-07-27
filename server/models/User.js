@@ -150,7 +150,7 @@ const userSchema = new mongoose.Schema({
   phone: {
     type: String,
     trim: true,
-    match: [/^[+]?[1-9][\d\-\(\)\s]{8,15}$/, 'Please enter a valid phone number'],
+    match: [/^[+]?[0-9][\d\-\(\)\s]{8,15}$/, 'Please enter a valid phone number'],
   },
   businessName: {
     type: String,

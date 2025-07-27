@@ -86,7 +86,7 @@ export const Cart: React.FC = () => {
       });
       
       clearCart();
-      navigate('/vendor');
+      navigate('/materials');
     } catch (error) {
       toast({
         title: "Order Failed",
@@ -108,7 +108,7 @@ export const Cart: React.FC = () => {
             <p className="text-muted-foreground mb-6">
               Add some raw materials to get started with your order
             </p>
-            <Link to="/vendor">
+            <Link to="/materials">
               <Button className="btn-gradient">
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Continue Shopping
@@ -124,7 +124,7 @@ export const Cart: React.FC = () => {
     <div className="min-h-screen bg-background">
       <div className="w-full px-4 py-8">
         <div className="mb-6">
-          <Link to="/vendor" className="inline-flex items-center text-muted-foreground hover:text-foreground">
+          <Link to="/materials" className="inline-flex items-center text-muted-foreground hover:text-foreground">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Shopping
           </Link>

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ShoppingCart, Package, TrendingUp, Clock, MapPin, CheckCircle, X } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
@@ -14,6 +15,7 @@ import { toast } from '../hooks/use-toast';
 export const VendorDashboard: React.FC = () => {
   const { user } = useAuth();
   const { cart, getCartItemCount } = useCart();
+  const navigate = useNavigate();
   const [orders, setOrders] = useState<Order[]>([]);
   const [userLocation, setUserLocation] = useState<LocationType | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -53,16 +55,29 @@ export const VendorDashboard: React.FC = () => {
     loadData();
   }, [user]);
 
-  // Get user location
+  // Set user location from profile or get from geolocation as fallback
   useEffect(() => {
-    getCurrentLocation()
-      .then(location => {
-        setUserLocation(location);
-      })
-      .catch(error => {
-        console.error('Error getting location:', error);
+    if (user?.location) {
+      // Use location from user profile
+      setUserLocation({
+        latitude: user.location.latitude,
+        longitude: user.location.longitude,
+        address: user.location.address,
+        city: user.location.city,
+        state: user.location.state,
+        pincode: user.location.pincode,
       });
-  }, []);
+    } else {
+      // Fallback to geolocation if no location in profile
+      getCurrentLocation()
+        .then(location => {
+          setUserLocation(location);
+        })
+        .catch(error => {
+          console.error('Error getting location:', error);
+        });
+    }
+  }, [user]);
 
   const stats = [
     {
@@ -176,15 +191,42 @@ export const VendorDashboard: React.FC = () => {
             </p>
             {userLocation && (
               <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
+                <MapPin className="w-4 h-4 text-primary" />
+                <span>
+                  {userLocation.address ? 
+                    `${userLocation.address}, ${userLocation.city}, ${userLocation.state} ${userLocation.pincode}` : 
+                    `${userLocation.city}, ${userLocation.state} ${userLocation.pincode}`
+                  }
+                </span>
+                {/* {process.env.NODE_ENV === 'development' && (
+                  <span className="text-xs text-orange-500 ml-2">
+                    ({userLocation.latitude.toFixed(4)}, {userLocation.longitude.toFixed(4)})
+                  </span>
+                )} */}
+              </div>
+            )}
+            {!userLocation && user?.location && (
+              <div className="flex items-center gap-2 mt-2 text-sm text-muted-foreground">
+                <MapPin className="w-4 h-4 text-primary" />
+                <span>
+                  {user.location.address ? 
+                    `${user.location.address}, ${user.location.city}, ${user.location.state} ${user.location.pincode}` : 
+                    `${user.location.city}, ${user.location.state} ${user.location.pincode}`
+                  }
+                </span>
+              </div>
+            )}
+            {!userLocation && !user?.location && (
+              <div className="flex items-center gap-2 mt-2 text-sm text-orange-600">
                 <MapPin className="w-4 h-4" />
-                <span>Location: {userLocation.city}, {userLocation.state}</span>
+                <span>Location not set - Update your profile to set delivery location</span>
               </div>
             )}
           </div>
 
           {/* Quick Navigation */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <Card className="card-elegant hover:scale-105 transition-smooth cursor-pointer" onClick={() => window.location.href = '/materials'}>
+            <Card className="card-elegant hover:scale-105 transition-smooth cursor-pointer" onClick={() => navigate('/materials')}>
               <CardContent className="p-6 text-center">
                 <Package className="w-12 h-12 text-primary mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">Browse Materials</h3>
@@ -197,7 +239,7 @@ export const VendorDashboard: React.FC = () => {
               </CardContent>
             </Card>
 
-            <Card className="card-elegant hover:scale-105 transition-smooth cursor-pointer" onClick={() => window.location.href = '/cart'}>
+            <Card className="card-elegant hover:scale-105 transition-smooth cursor-pointer" onClick={() => navigate('/cart')}>
               <CardContent className="p-6 text-center">
                 <ShoppingCart className="w-12 h-12 text-primary mx-auto mb-4" />
                 <h3 className="text-lg font-semibold mb-2">View Cart</h3>
@@ -309,7 +351,7 @@ export const VendorDashboard: React.FC = () => {
                   <p className="text-muted-foreground mb-6">
                     Start by browsing materials and adding items to your cart
                   </p>
-                  <Button className="btn-gradient" onClick={() => window.location.href = '/materials'}>
+                  <Button className="btn-gradient" onClick={() => navigate('/materials')}>
                     <Package className="w-4 h-4 mr-2" />
                     Browse Materials
                   </Button>

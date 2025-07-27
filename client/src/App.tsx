@@ -68,6 +68,38 @@ function App() {
                   } 
                 />
                 <Route 
+                  path="/vendor/orders" 
+                  element={
+                    <ProtectedRoute allowedRoles={['vendor']}>
+                      <VendorDashboard />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/supplier/orders" 
+                  element={
+                    <ProtectedRoute allowedRoles={['supplier']}>
+                      <SupplierDashboard />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/supplier/analytics" 
+                  element={
+                    <ProtectedRoute allowedRoles={['supplier']}>
+                      <SupplierDashboard />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/supplier/customers" 
+                  element={
+                    <ProtectedRoute allowedRoles={['supplier']}>
+                      <SupplierDashboard />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
                   path="/cart" 
                   element={
                     <ProtectedRoute allowedRoles={['vendor']}>
