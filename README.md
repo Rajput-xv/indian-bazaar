@@ -130,6 +130,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Contributors
 
+- **Team Name -** A721
 - **Parth Saxena**
 - **Navneet Gupta**
 - **Vansh**
