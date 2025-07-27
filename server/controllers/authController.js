@@ -22,19 +22,52 @@ const register = async (req, res) => {
       return res.status(400).json({ error: 'User already exists' });
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(password, 12);
-
-    // Create user
-    const user = await User.create({
+    // Prepare user data with role-specific defaults
+    const userData = {
       name,
       email,
-      password: hashedPassword,
+      password, // Let the model handle password hashing
       role,
       phone,
       businessName,
       location,
-    });
+    };
+
+    // Add role-specific required fields with defaults
+    if (role === 'vendor') {
+      userData.preferences = {
+        preferredCategories: [],
+        maxDeliveryDistance: 25,
+        budgetRange: { min: 0, max: 10000 },
+        preferredSuppliers: [],
+        notifications: {
+          priceAlerts: true,
+          stockAlerts: true,
+          orderUpdates: true,
+          newSuppliers: false,
+        },
+      };
+      userData.statistics = {
+        totalOrders: 0,
+        totalSpent: 0,
+        averageOrderValue: 0,
+        favoriteSuppliers: [],
+        mostOrderedCategories: [],
+      };
+    } else if (role === 'supplier') {
+      userData.deliveryRadius = 25;
+      userData.averageDeliveryTime = 'Same day';
+      userData.minimumOrderAmount = 500;
+      userData.operatingHours = {
+        open: '09:00',
+        close: '18:00',
+        days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+      };
+      userData.specialties = [];
+    }
+
+    // Create user
+    const user = await User.create(userData);
 
     // Generate token
     const token = generateToken(user._id);
@@ -72,7 +105,7 @@ const login = async (req, res) => {
     }
 
     // Check password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
+    const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }

@@ -8,6 +8,7 @@ import { Label } from '../components/ui/label';
 import { useAuth, UserRole } from '../contexts/AuthContext';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { toast } from '../hooks/use-toast';
+import { geocodeAddress } from '../utils/locationUtils';
 
 export const Auth: React.FC = () => {
   const { role } = useParams<{ role: string }>();
@@ -69,24 +70,55 @@ export const Auth: React.FC = () => {
           return;
         }
 
-        const registerData = {
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-          role: userRole,
-          phone: formData.phone,
-          businessName: formData.businessName || formData.name,
-          location: {
-            address: formData.address,
-            city: formData.city,
-            state: formData.state,
-            pincode: formData.pincode,
-            latitude: 0, // TODO: Get from geocoding
-            longitude: 0, // TODO: Get from geocoding
-          }
-        };
+        try {
+          // Get coordinates for the address
+          const coordinates = await geocodeAddress(
+            formData.address, 
+            formData.city, 
+            formData.state, 
+            formData.pincode
+          );
 
-        success = await register(registerData);
+          const registerData = {
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            role: userRole,
+            phone: formData.phone,
+            businessName: formData.businessName || formData.name,
+            location: {
+              address: formData.address,
+              city: formData.city,
+              state: formData.state,
+              pincode: formData.pincode,
+              latitude: coordinates.latitude,
+              longitude: coordinates.longitude,
+            }
+          };
+
+          success = await register(registerData);
+        } catch (geocodeError) {
+          console.warn('Geocoding failed, using default coordinates:', geocodeError);
+          
+          const registerData = {
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            role: userRole,
+            phone: formData.phone,
+            businessName: formData.businessName || formData.name,
+            location: {
+              address: formData.address,
+              city: formData.city,
+              state: formData.state,
+              pincode: formData.pincode,
+              latitude: 28.7041, // Default to Delhi
+              longitude: 77.1025,
+            }
+          };
+
+          success = await register(registerData);
+        }
       }
       
       if (success) {
